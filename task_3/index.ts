@@ -53,17 +53,13 @@ const getBalloonsAmount = async (balloons: typeof BALLONS) => {
 
   const balloonsArray = Object.values(balloons);
 
-  for (let i = 0; i < balloonsArray.length; i++) {
-    const balloon = balloonsArray[i];
-
+  balloonsArray.forEach((balloon) => {
     if (!balloon.isPublic) {
-      continue;
+      return;
     }
-
     promises.push(fetchBallonAmount(balloon.id));
-
     isPublicAmount++;
-  }
+  });
 
   const balloonsSum = (await Promise.all(promises)).reduce(
     (sum, elem) => sum + elem,
